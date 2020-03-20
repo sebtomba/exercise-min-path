@@ -44,7 +44,7 @@ class NumberTriangleSpec extends AnyWordSpec with Matchers {
             |11 2 10 9
             |""".stripMargin
 
-        val result = NumberTriangle.valuesFromString(str)
+        val result = NumberTriangle.valuesFromString(str.split("\n").toList)
         val expected =
           List(List(7), List(6, 3), List(3, 8, 5), List(11, 2, 10, 9))
         result mustBe Some(expected)

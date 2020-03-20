@@ -1,4 +1,5 @@
 import scala.util.Try
+
 object NumberTriangle {
 
   case class Result(sum: Long, path: List[Int])
@@ -36,7 +37,7 @@ object NumberTriangle {
     reverted.tail.foldLeft(start)((acc, vs) => next(acc, vs)).head
   }
 
-  def valuesFromString(str: String): Option[List[List[Int]]] = {
+  def valuesFromString(lines: List[String]): Option[List[List[Int]]] = {
     def numbers(s: String): Option[List[Int]] =
       Try(
         s.split(" ")
@@ -46,9 +47,7 @@ object NumberTriangle {
           .toList
       ).toOption
 
-    str
-      .split("\n")
-      .toList
+    lines
       .map(_.trim)
       .filter(_ != "")
       .map(numbers)
