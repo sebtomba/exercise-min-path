@@ -2,7 +2,14 @@ object MinPath {
 
   case class Result(sum: Int, path: List[Int])
 
-  def searchMinPath(values: List[List[Int]]): Result = {
+  def searchMinPath(values: List[List[Int]]): Result =
+    searchPath(values, _ < _)
+
+  def searchMaxPath(values: List[List[Int]]): Result =
+    searchPath(values, _ > _)
+
+  def searchPath(values: List[List[Int]],
+                 compare: (Int, Int) => Boolean): Result = {
     require(values.nonEmpty, "The values can't be empty")
 
     @scala.annotation.tailrec
@@ -13,7 +20,7 @@ object MinPath {
       else
         current match {
           case r1 :: r2 :: _ =>
-            val r = if (r1.sum < r2.sum) r1 else r2
+            val r = if (compare(r1.sum, r2.sum)) r1 else r2
             next(
               current.tail,
               values.tail,
