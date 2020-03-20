@@ -19,15 +19,13 @@ val additionalScalacOptions = Seq(
 
 val projectSettings = Seq(
   name := "min-path",
-  description := "Create a REST application with a single convert endpoint",
+  description := "Finds the minimal path in a triangle of numbers",
   version := "1.0",
   scalaVersion := "2.13.1",
   organization := "Sebastian Bach",
-  scalacOptions ++= additionalScalacOptions
+  scalacOptions ++= additionalScalacOptions,
+  mainClass in assembly := Some("Main")
 )
-
-val http4sVersion = "0.21.0-RC4"
-val circeVersion = "0.13.0-RC1"
 
 val dependencies = Seq(
   "org.typelevel" %% "cats-core" % "2.1.0",
