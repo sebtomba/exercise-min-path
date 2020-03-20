@@ -2,7 +2,7 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class NumberTriangleSpec extends AnyWordSpec with Matchers {
-  "MinPath" when {
+  "NumberTriangle" when {
 
     "search min path in graph with 1 row" should {
       "return the node as minimal path" in {
@@ -31,6 +31,23 @@ class NumberTriangleSpec extends AnyWordSpec with Matchers {
         val result = NumberTriangle.searchMinPath(values)
         result.sum mustEqual 500
         result.path.length mustEqual 500
+      }
+    }
+
+    "converting a string" should {
+      "return the values" in {
+        val str =
+          """
+            |7
+            |6 3
+            |3 8 5
+            |11 2 10 9
+            |""".stripMargin
+
+        val result = NumberTriangle.valuesFromString(str)
+        val expected =
+          List(List(7), List(6, 3), List(3, 8, 5), List(11, 2, 10, 9))
+        result mustBe Some(expected)
       }
     }
   }
