@@ -1,33 +1,31 @@
-import cats.Eval
-import cats.syntax.all._
-
 object MinPath {
 
-  case class Node(row: Int, column: Int, value: Int)
-  case class Result(sum: Int, nodes: List[Int])
+  case class Result(sum: Int, path: List[Int])
 
-  def searchMinPath(graph: Array[Array[Node]]): Eval[Result] = {
+  def searchMinPath(values: List[List[Int]]): Result = {
+    require(values.nonEmpty, "The values can't be empty")
 
-    def childNodes(node: Node): Option[(Node, Node)] =
-      if (node.row + 1 < graph.length) {
-        val nodes = graph(node.row + 1)
-        (nodes(node.column), nodes(node.column + 1)).some
-      } else None
+    @scala.annotation.tailrec
+    def next(current: List[Result],
+             values: List[Int],
+             acc: List[Result] = Nil): List[Result] =
+      if (values.isEmpty) acc.reverse
+      else
+        current match {
+          case r1 :: r2 :: _ =>
+            val r = if (r1.sum < r2.sum) r1 else r2
+            next(
+              current.tail,
+              values.tail,
+              Result(r.sum + values.head, values.head :: r.path) :: acc
+            )
 
-    def search(node: Node): Eval[Result] =
-      childNodes(node)
-        .map {
-          case (l, r) =>
-            for {
-              minL <- search(l)
-              minR <- search(r)
-            } yield {
-              val result = if (minL.sum < minR.sum) minL else minR
-              Result(result.sum + node.value, node.value :: result.nodes)
-            }
+          case _ => throw new RuntimeException("Unexpected result length")
         }
-        .getOrElse(Eval.now(Result(node.value, List(node.value))))
 
-    search(graph(0)(0))
+    val reverted = values.reverse
+    val start = reverted.head.map(v => Result(v, List(v)))
+    reverted.tail.foldLeft(start)((acc, vs) => next(acc, vs)).head
   }
+
 }
