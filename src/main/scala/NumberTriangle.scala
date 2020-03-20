@@ -1,4 +1,4 @@
-object MinPath {
+object NumberTriangle {
 
   case class Result(sum: Long, path: List[Int])
 
