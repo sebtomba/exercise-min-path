@@ -61,4 +61,14 @@ object NumberTriangle {
       )
       .map(_.reverse)
   }
+
+  def validateValues(values: List[List[Int]]): Boolean =
+    values.zipWithIndex.foldLeft(true)(
+      (valid, v) =>
+        (valid, v) match {
+          case (true, (l, n)) => l.length == n + 1
+          case _              => false
+      }
+    )
+
 }

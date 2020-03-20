@@ -50,5 +50,21 @@ class NumberTriangleSpec extends AnyWordSpec with Matchers {
         result mustBe Some(expected)
       }
     }
+
+    "validating provided values" should {
+      "return true" in {
+        val values =
+          List(List(7), List(6, 3), List(3, 8, 5), List(11, 2, 10, 9))
+        NumberTriangle.validateValues(values) mustBe true
+      }
+    }
+
+    "validating provided malformed values" should {
+      "return false" in {
+        val values =
+          List(List(7), List(6, 3, 8), List(3, 8, 5), List(11, 2, 10, 9))
+        NumberTriangle.validateValues(values) mustBe false
+      }
+    }
   }
 }
