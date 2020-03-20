@@ -62,12 +62,14 @@ object NumberTriangle {
   }
 
   def validateValues(values: List[List[Int]]): Boolean =
-    values.zipWithIndex.foldLeft(true)(
-      (valid, v) =>
-        (valid, v) match {
-          case (true, (l, n)) => l.length == n + 1
-          case _              => false
-      }
-    )
+    if (values.isEmpty) false
+    else
+      values.zipWithIndex.foldLeft(true)(
+        (valid, v) =>
+          (valid, v) match {
+            case (true, (l, n)) => l.length == n + 1
+            case _              => false
+        }
+      )
 
 }

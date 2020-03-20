@@ -66,5 +66,12 @@ class NumberTriangleSpec extends AnyWordSpec with Matchers {
         NumberTriangle.validateValues(values) mustBe false
       }
     }
+
+    "validating provided empty values" should {
+      "return false" in {
+        val values = List.empty[List[Int]]
+        NumberTriangle.validateValues(values) mustBe false
+      }
+    }
   }
 }
