@@ -1,6 +1,6 @@
 object MinPath {
 
-  case class Result(sum: Int, path: List[Int])
+  case class Result(sum: Long, path: List[Int])
 
   def searchMinPath(values: List[List[Int]]): Result =
     searchPath(values, _ < _)
@@ -9,7 +9,7 @@ object MinPath {
     searchPath(values, _ > _)
 
   def searchPath(values: List[List[Int]],
-                 compare: (Int, Int) => Boolean): Result = {
+                 compare: (Long, Long) => Boolean): Result = {
     require(values.nonEmpty, "The values can't be empty")
 
     @scala.annotation.tailrec
