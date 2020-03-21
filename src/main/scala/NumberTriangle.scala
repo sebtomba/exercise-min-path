@@ -12,29 +12,22 @@ object NumberTriangle {
 
   def searchPath(values: List[List[Int]],
                  compare: (Long, Long) => Boolean): Result = {
-    require(values.nonEmpty, "The values can't be empty")
+    require(values.nonEmpty, "Values can't be empty")
 
-    @scala.annotation.tailrec
-    def next(current: List[Result],
-             values: List[Int],
-             acc: List[Result] = Nil): List[Result] =
-      if (values.isEmpty) acc.reverse
-      else
-        current match {
-          case r1 :: r2 :: _ =>
+    val rev = values.reverse
+    rev.tail
+      .foldLeft(rev.head.map(v => Result(v, List(v)))) { (curr, row) =>
+        val (_, next) =
+          row.foldLeft((curr, List.empty[Result])) { (acc, v) =>
+            val (prev, rs) = acc
+            val r1 = prev.head
+            val r2 = prev.tail.head
             val r = if (compare(r1.sum, r2.sum)) r1 else r2
-            next(
-              current.tail,
-              values.tail,
-              Result(r.sum + values.head, values.head :: r.path) :: acc
-            )
-
-          case _ => throw new RuntimeException("Unexpected result length")
-        }
-
-    val reverted = values.reverse
-    val start = reverted.head.map(v => Result(v, List(v)))
-    reverted.tail.foldLeft(start)((acc, vs) => next(acc, vs)).head
+            (prev.tail, Result(r.sum + v, v :: r.path) :: rs)
+          }
+        next.reverse
+      }
+      .head
   }
 
   def valuesFromString(lines: List[String]): Option[List[List[Int]]] = {
